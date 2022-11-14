@@ -1,0 +1,47 @@
+body{
+  background-color: #ddd;
+  margin: 0;
+}
+/* To Navigation Bar*/
+.topnav {
+  background-color: rgb(196, 67, 17);
+  overflow: hidden;
+}
+.topnav a {
+  float:left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 26px;
+}
+.topnav a:hover {
+  background-color: rgb(48, 124, 67);
+  color: black;
+}
+.topnav a.right {
+  float: right;
+  background-color: #d86b12;
+  color: white;
+  size: 27px;
+  align-items: flex-end;
+}
+
+#container {
+
+  width: 100%;
+  display: flex;
+  background-color: brown;
+}
+#leftThing {
+  width: 25%;
+  background-color: blue;
+}
+#content {
+  width: 50%;
+  background-color: green;
+}
+#rightThing {
+  width: 25%;
+  background-color: yellow;
+}
