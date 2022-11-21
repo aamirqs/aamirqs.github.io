@@ -5,6 +5,7 @@ body{
 .topnav {
   background-color: #333;
   overflow: hidden;
+
 }
 
 .topnav a {
@@ -17,7 +18,7 @@ font-size: 17px;
 }
 
 .topnav a:hover {
-background-color: #ddd;
+background-color: #E4F2F9;
 color: black;
 }
 
@@ -34,6 +35,15 @@ float: right;
 }
 
 
+.header-div{
+  margin: auto  ;
+  width: 800px;
+  height: 500px;
+  background-color: #f9f7f7;
+  
+  align-items: center;
+  padding: 10px;
+}
 
 
 
