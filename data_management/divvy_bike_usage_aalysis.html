@@ -14686,50 +14686,55 @@ The data I used is Divvy's <a href="https://divvy-tripdata.s3.amazonaws.com/inde
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h4 id="Load-Dataset">Load Dataset<a class="anchor-link" href="#Load-Dataset">&#182;</a></h4><p>We will be using data from December 2021 to November 2022, due to size of datasets, I ran a python script from terminal to read 12 CSV files into pandas dataframes, perform basic data cleaning saving it to clean CSV file.
-`import pandas as pd
- from pandas.api.types import CategoricalDtype</p>
-<p>import seaborn as sns
- import matplotlib.pyplot as plt
- import plotly.express as px</p>
-<p>csv_list = [&quot;/home/aamir/projects/dma_project/dataset/202112-divvy-tripdata.csv&quot;,
-      &quot;/home/aamir/projects/dma_project/dataset/202201-divvy-tripdata.csv&quot;,
-      &quot;/home/aamir/projects/dma_project/dataset/202202-divvy-tripdata.csv&quot;,
-      &quot;/home/aamir/projects/dma_project/dataset/202203-divvy-tripdata.csv&quot;,
-      &quot;/home/aamir/projects/dma_project/dataset/202204-divvy-tripdata.csv&quot;,
-      &quot;/home/aamir/projects/dma_project/dataset/202205-divvy-tripdata.csv&quot;,
-      &quot;/home/aamir/projects/dma_project/dataset/202206-divvy-tripdata.csv&quot;,
-      &quot;/home/aamir/projects/dma_project/dataset/202207-divvy-tripdata.csv&quot;,
-      &quot;/home/aamir/projects/dma_project/dataset/202208-divvy-tripdata.csv&quot;,
-      &quot;/home/aamir/projects/dma_project/dataset/202209-divvy-publictripdata.csv&quot;,
-      &quot;/home/aamir/projects/dma_project/dataset/202210-divvy-tripdata.csv&quot;,
-      &quot;/home/aamir/projects/dma_project/dataset/202211-divvy-tripdata.csv&quot;]
- df_list = []
- for i in csv_list:
-     df = pd.read_csv(i)
-     df_list.append(df)
- df = pd.concat(df_list,ignore_index = True)
- print(df.info())
- print(df.shape)</p>
-<p>print(df.isnull().sum())
- df = df.dropna(how='any', axis=0)
- print(df.isnull().sum())
- pd.options.mode.chained_assignment = None
- df['started_at'] = df['started_at'].astype('datetime64')
- df['ended_at'] = df['ended_at'].astype('datetime64')
- df['ride_length'] = (df['ended_at'] - df['started_at'])/pd.Timedelta(minutes=1)
- df['ride_length'] = df['ride_length'].astype('int32')
- print(df.head())
- df.sort_values(by = 'ride_length')
- print(df[df['ride_length'] &lt; 0].count())
- print(df[df['ride_length'] &lt; 1].count())
- df = df[df['ride_length'] &gt;= 1]
- df = df.reset_index()
- df = df.drop(columns=['index'])
- print(df.shape)
- print(df.info())
- df.to_csv(&quot;/home/aamir/projects/dma_project/dataset/cyclistic_final_data.csv&quot;)
-`</p>
+<h4 id="Load-Dataset">Load Dataset<a class="anchor-link" href="#Load-Dataset">&#182;</a></h4><p>We will be using data from December 2021 to November 2022, due to size of datasets, Below python script was executed from console to read 12 CSV files.
+Apart from reading CSV file basic data cleaning is performed to reduce memory load while running from any other IDE.
+The csv information was concatinated into into pandas dataframe df this df was saved in a csv file named cyclistic_final_data.csv. We will be using this CSV file to further continue our analysis.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pandas.api.types</span> <span class="kn">import</span> <span class="n">CategoricalDtyp</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span><span class="err">```</span>
+
+
+<span class="n">csv_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202112-divvy-tripdata.csv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202201-divvy-tripdata.csv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202202-divvy-tripdata.csv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202203-divvy-tripdata.csv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202204-divvy-tripdata.csv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202205-divvy-tripdata.csv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202206-divvy-tripdata.csv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202207-divvy-tripdata.csv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202208-divvy-tripdata.csv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202209-divvy-publictripdata.csv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202210-divvy-tripdata.csv&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/home/aamir/projects/dma_project/dataset/202211-divvy-tripdata.csv&quot;</span><span class="p">]</span>
+<span class="n">df_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">csv_list</span><span class="p">:</span>
+ <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+ <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span><span class="n">ignore_index</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">chained_assignment</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;started_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;started_at&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;datetime64&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;ended_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ended_at&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;datetime64&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;ride_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ended_at&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;started_at&#39;</span><span class="p">])</span><span class="o">/</span><span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;ride_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ride_length&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="s1">&#39;ride_length&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ride_length&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ride_length&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;ride_length&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">())</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;/home/aamir/projects/dma_project/dataset/cyclistic_final_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
 
 </div>
 </div>
